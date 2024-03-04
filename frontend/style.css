@@ -1,0 +1,12 @@
+
+
+.gradient-bg {
+    background: linear-gradient(to bottom, #333333, #ffffff); /* Dégradé de noir à blanc */
+        color: #ffffff; /* Couleur du texte (blanc dans cet exemple) pour une meilleure lisibilité */
+        padding: 20px;
+}
+.custom-header {
+    background-color: #333333; /* Couleur d'arrière-plan gris foncé */
+    color: #ffffff; /* Couleur du texte (blanc dans cet exemple) pour une meilleure lisibilité */
+    padding: 20px;
+}
