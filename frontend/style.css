@@ -1,5 +1,5 @@
 
-
+/* degrade couleur*/
 .gradient-bg {
     background: linear-gradient(to bottom, #333333, #ffffff); /* Dégradé de noir à blanc */
         color: #ffffff; /* Couleur du texte (blanc dans cet exemple) pour une meilleure lisibilité */
@@ -10,3 +10,46 @@
     color: #ffffff; /* Couleur du texte (blanc dans cet exemple) pour une meilleure lisibilité */
     padding: 20px;
 }
+
+
+.colored-block {
+    position: relative;
+    /* Autres styles si nécessaire */
+}
+/* adaptation image partenaire*/
+.img-stretch {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assure que l'image remplit entièrement le conteneur sans déformer l'aspect */
+}
+
+
+/* fleche eretour en haut */
+.img-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 1rem;
+}
+.img-container img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+/* Media query pour ajuster la taille de l'image sur les écrans plus petits */
+@media (max-width: 576px) {
+    .img-container {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        padding: 1rem;
+    }
+
+    .img-container img {
+        width: 100%;
+        height: auto;
+        max-width: 20%;
+
+    }
+}
+
