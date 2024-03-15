@@ -86,3 +86,26 @@
     height: auto;
     overflow: auto;
 }
+/*maps*/
+
+.map-container {
+    width: 100%; /* Prend toute la largeur disponible */
+    padding-bottom: 56.25%; /* Ratio 16:9 pour maintenir la proportion */
+    position: relative; /* Pour placer l'iframe de manière absolue */
+}
+
+/* Styles pour que la carte Google Maps soit responsive */
+.map-container iframe {
+    width: 100%;
+    height: 100%; /* Prend la hauteur totale disponible */
+    position: absolute; /* Position absolue pour remplir le conteneur parent */
+    top: 0;
+    left: 0;
+}
+
+/* Media query pour ajuster la taille de la carte sur les écrans plus grands */
+@media (min-width: 992px) {
+    .map-container {
+        padding-bottom: 75%; /* Ajuster le ratio pour les écrans plus grands */
+    }
+}

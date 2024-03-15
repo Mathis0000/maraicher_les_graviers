@@ -26,7 +26,7 @@
 
     <div class="img-container">
         <!-- Image cliquable -->
-        <a href="#acceuil" target="_blank">
+        <a href="#acceuil">
             <img src="png/fleche.png" alt="retour en haut" class="img-fluid">
         </a>
     </div>
@@ -72,49 +72,35 @@
         </div>
     </header>
 
-    <div class="container custom-container">
+    <div class="container">
         <div class="row">
-            <!-- Première paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-2">
-                <img src="png/nos_produits/asperge.jpg" alt="Image" class="img-fluid image-landscape">
+            <!-- Colonne pour la carte Google Maps -->
+            <div class="col-md-12">
+                <div class="map-container">
+                    <!-- Intégration de la carte Google Maps -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11183.971674579447!2d3.2596597769834577!3d45.510221174403064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f6570682e6ffff%3A0xc6249576b4e550!2sJardinier%20Mara%C3%AEcher%20Les%20Graviers!5e0!3m2!1sfr!2sfr!4v1710506195210!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6 order-md-1">
-                <p class="custom-text">
-                    Les asperges sont des légumes verts tendres et délicats, riches en fibres, vitamines et minéraux. Elles peuvent être grillées, cuites à la vapeur, ou ajoutées à des plats tels que des omelettes ou des salades.
-                </p>
+            <!-- Colonne pour le titre, l'adresse et les horaires -->
+            <div class="col-md-6">
+                <h2>Notre adresse</h2>
+                <p>Les Graviers, 63500 Le Broc</p>
             </div>
-        </div>
-        <div class="row">
-            <!-- Deuxième paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-3">
-                <img src="png/nos_produits/cerise.jpg" alt="Image" class="img-fluid image-portrait">
-            </div>
-            <div class="col-md-6 order-md-4">
-                <p class="custom-text">
-                    Les cerises sont des fruits sucrés et juteux, disponibles dans une variété de couleurs. Elles sont riches en antioxydants et peuvent être consommées fraîches, utilisées dans des desserts, ou transformées en confitures.
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Troisième paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-2">
-                <img src="png/nos_produits/epinard.jpg" alt="Image" class="img-fluid image-landscape">
-            </div>
-            <div class="col-md-6 order-md-1">
-                <p class="custom-text">
-                    Les épinards sont des feuilles vertes foncées riches en fer, calcium et vitamines. Ils sont polyvalents et peuvent être consommés crus dans des salades, cuits dans des plats sautés ou ajoutés à des smoothies.
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Quatrième paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-3">
-                <img src="png/nos_produits/fraise.jpg" alt="Image" class="img-fluid image-portrait">
-            </div>
-            <div class="col-md-6 order-md-4">
-                <p class="custom-text">
-                    Les fraises sont des baies sucrées et juteuses, riches en vitamine C et en antioxydants. Elles sont souvent consommées fraîches, ajoutées à des salades, des desserts ou utilisées pour préparer des confitures.
-                </p>
+
+            <div class="col-md-6">
+                <h2>Nos horaires</h2>
+                <ul>
+                    <li>Lundi: 14h - 18h</li>
+                    <li>Mardi: 14h - 18h</li>
+                    <li>Mercredi: 14h - 18h</li>
+                    <li>Jeudi: 14h - 18h</li>
+                    <li>Vendredi: 14h - 18h</li>
+                    <li>Samedi: 14h - 18h</li>
+                    <li>Dimanche: 14h - 18h</li>
+
+                </ul>
             </div>
         </div>
     </div>
@@ -126,7 +112,6 @@
     
     
     
-
     <footer class="bg-dark text-white text-center py-3">
         <p>&copy; 2024 Votre Entreprise. Tous droits réservés.</p>
     </footer>
