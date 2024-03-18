@@ -2,9 +2,9 @@
 
 function ajouter($image, $nom, $prix, $description, $saison){
     if (require("connexion.php")){
-        $req = $access->prepare("INSERT INTO produits (image, nom, prix, description, saison) VALUES ($image, $nom, $prix, $description, $saison)");
-        $req->execute(array($image, $nom, $prix, $description, $saison));
-        $req->closeCursor();
+        $req = $access->prepare("INSERT INTO produits (image, nom, prix, description, saison) VALUES (?, ?, ?, ?, ?)");
+        $req->execute([$image, $nom, $prix, $description, $saison]);
+        
     }
 }
 
@@ -20,7 +20,7 @@ function afficher(){
 
 function supprimer($id){
     if (require("connexion.php")){
-        $req = $access->prepare("DELETE * FROM produits WHERE id=?;");
+        $req = $access->prepare("DELETE FROM produits WHERE id=?;");
         $req->execute(array($id));
         $req->closeCursor();
     }
