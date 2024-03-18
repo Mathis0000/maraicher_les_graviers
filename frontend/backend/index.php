@@ -52,10 +52,10 @@ $mes_produits=afficher() ;
                 <nav class="col-lg-8 col-md-12">
                     <ul class="nav justify-content-center justify-content-lg-end">
                         <li class="nav-item">
-                            <a href="test.php" class="btn btn-primary mx-2 mb-2">Accueil</a>
+                            <a href="admin/test.php" class="btn btn-primary mx-2 mb-2">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/../nos_produits.html" class="btn btn-primary mx-2 mb-2">Nos Produits</a>
+                            <a href="admin/supprimer.php" class="btn btn-primary mx-2 mb-2">Nos Produits</a>
                         </li>
 
                         <li class="nav-item">
