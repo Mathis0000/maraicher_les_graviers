@@ -1,5 +1,5 @@
 <?php
-require("commande.php");
+require("backend/commande.php");
 $mes_produits=afficher_si_printemps() ;
 ?>
 <!DOCTYPE html>
@@ -25,16 +25,7 @@ $mes_produits=afficher_si_printemps() ;
             <img src="png/insta.png" alt="Image Cliquable" class="img-thumbnail rounded-circle float-end img-fluid" style="width: 40px;">
         </a>
     </div>
-    <!--retour top-->
 
-
-    <div class="img-container">
-        <!-- Image cliquable -->
-        <a href="#acceuil" target="_blank">
-            <img src="png/fleche.png" alt="retour en haut" class="img-fluid">
-        </a>
-    </div>
-    
     
     
     
@@ -100,7 +91,6 @@ $mes_produits=afficher_si_printemps() ;
 
     </div>
 </div>
-    
     
     
     

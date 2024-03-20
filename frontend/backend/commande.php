@@ -17,7 +17,7 @@ function afficher(){
         return $data;
     }
 }
-function afficher_si_stock(){
+function afficher_si_printemps(){
     try {
         require("connexion.php");
         
@@ -84,7 +84,7 @@ function afficher_si_ete(){
     }
 }
 
-function afficher_si_printemps(){
+function afficher_si_stock(){
     try {
         require("connexion.php");
         

@@ -66,16 +66,7 @@ if(isset($_POST["envoyer"])){
             <img src="/../png/insta.png" alt="Image Cliquable" class="img-thumbnail rounded-circle float-end img-fluid" style="width: 40px;">
         </a>
     </div>
-    <!--retour top-->
 
-
-    <div class="img-container">
-        <!-- Image cliquable -->
-        <a href="#acceuil">
-            <img src="/../png/fleche.png" alt="retour en haut" class="img-fluid">
-        </a>
-    </div>
-    
     
     
     

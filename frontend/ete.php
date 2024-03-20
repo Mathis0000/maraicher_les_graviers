@@ -1,3 +1,7 @@
+<?php
+require("backend/commande.php");
+$mes_produits=afficher_si_ete() ;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,16 +25,7 @@
             <img src="png/insta.png" alt="Image Cliquable" class="img-thumbnail rounded-circle float-end img-fluid" style="width: 40px;">
         </a>
     </div>
-    <!--retour top-->
 
-
-    <div class="img-container">
-        <!-- Image cliquable -->
-        <a href="#acceuil" target="_blank">
-            <img src="png/fleche.png" alt="retour en haut" class="img-fluid">
-        </a>
-    </div>
-    
     
     
     
@@ -72,52 +67,30 @@
         </div>
     </header>
 
-    <div class="container custom-container">
-        <div class="row">
-            <!-- Première paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-2">
-                <img src="png/nos_produits/asperge.jpg" alt="Image" class="img-fluid image-landscape">
+    <div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+      <?php foreach($mes_produits as $un_produit):?>
+        <div class="col">
+          <div class="card shadow-sm">
+           <title><?=$un_produit->nom ?></title><rect width="100%" height="100%" fill="#55595c"/><img src="/../png/nos_produits/<?=$un_produit->image ?>">
+            <div class="card-body">
+              <p class="card-text"><?=$un_produit->description ?></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Acheter</button>
+                </div>
+                <small class="text-body-secondary"><?=$un_produit->prix ?> euros</small>
+              </div>
             </div>
-            <div class="col-md-6 order-md-1">
-                <p class="custom-text">
-                    Les asperges sont des légumes verts tendres et délicats, riches en fibres, vitamines et minéraux. Elles peuvent être grillées, cuites à la vapeur, ou ajoutées à des plats tels que des omelettes ou des salades.
-                </p>
-            </div>
+          </div>
         </div>
-        <div class="row">
-            <!-- Deuxième paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-3">
-                <img src="png/nos_produits/cerise.jpg" alt="Image" class="img-fluid image-portrait">
-            </div>
-            <div class="col-md-6 order-md-4">
-                <p class="custom-text">
-                    Les cerises sont des fruits sucrés et juteux, disponibles dans une variété de couleurs. Elles sont riches en antioxydants et peuvent être consommées fraîches, utilisées dans des desserts, ou transformées en confitures.
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Troisième paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-2">
-                <img src="png/nos_produits/epinard.jpg" alt="Image" class="img-fluid image-landscape">
-            </div>
-            <div class="col-md-6 order-md-1">
-                <p class="custom-text">
-                    Les épinards sont des feuilles vertes foncées riches en fer, calcium et vitamines. Ils sont polyvalents et peuvent être consommés crus dans des salades, cuits dans des plats sautés ou ajoutés à des smoothies.
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Quatrième paire : alternance gauche-droite -->
-            <div class="col-md-6 order-md-3">
-                <img src="png/nos_produits/fraise.jpg" alt="Image" class="img-fluid image-portrait">
-            </div>
-            <div class="col-md-6 order-md-4">
-                <p class="custom-text">
-                    Les fraises sont des baies sucrées et juteuses, riches en vitamine C et en antioxydants. Elles sont souvent consommées fraîches, ajoutées à des salades, des desserts ou utilisées pour préparer des confitures.
-                </p>
-            </div>
-        </div>
+        <?php endforeach; ?>
+
     </div>
+</div>
     
     
     

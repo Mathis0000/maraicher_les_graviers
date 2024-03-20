@@ -24,18 +24,7 @@
 }
 
 
-/* fleche eretour en haut */
-.img-container {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    padding: 1rem;
-}
-.img-container img {
-    width: 100%;
-    height: auto;
-    max-width: 100%;
-}
+
 /* Media query pour ajuster la taille de l'image sur les écrans plus petits */
 @media (max-width: 576px) {
     .img-container {
