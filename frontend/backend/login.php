@@ -1,7 +1,47 @@
 <?php
+session_start();
 require("commande.php");
-$mes_produits=afficher() ;
+
+if(isset($_POST["envoyer"])){
+    if(!empty($_POST["mail"]) && !empty($_POST['motdepasse'])){
+        $mail = $_POST['mail'];
+        $motdepasse = $_POST['motdepasse'];
+
+        // Afficher les mots de passe hachés introduits et ceux de la base de données
+        echo "Mot de passe introduit (haché) : " . password_hash($motdepasse, PASSWORD_DEFAULT) . "<br>";
+
+        // Vérification des identifiants
+        $admin = get_admin($mail, $motdepasse);
+        $user = get_user($mail, $motdepasse);
+
+        // Afficher les mots de passe hachés de la base de données
+        if ($admin) {
+            echo "Mot de passe enregistré (haché) pour l'administrateur : " . $admin['motdepasse'] . "<br>";
+        }
+        if ($user) {
+            echo "Mot de passe enregistré (haché) pour l'utilisateur : " . $user['motdepasse'] . "<br>";
+        }
+
+        // Vérifier si l'utilisateur est trouvé et que le mot de passe est correct
+        if($admin && password_verify($motdepasse, $admin['motdepasse'])){
+            $_SESSION['mainSession'] = $admin;
+            header('Location: admin/ajouter.php');
+            exit;
+        } else if($user && password_verify($motdepasse, $user['motdepasse'])) {
+            $_SESSION['secondarySession'] = $user;
+            header('Location: index.php');
+            exit;
+        } else {
+            echo 'Problème de connexion administrateur ou utilisateur';
+        }
+    }
+}
+
 ?>
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,44 +117,35 @@ $mes_produits=afficher() ;
         </div>
     </header>
 
-    <div class="album py-5 bg-body-tertiary">
-        <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            </div>
+            <div class="col-md-6">
+                
                 <form method="post">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Titre de l'image (ex: cerise.jpg)</label>
-                        <input type="name" class="form-control" name="image" required>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="mail" required>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Nom du produit</label>
-                        <input type="text" class="form-control" name="nom" required>
+                        <label for="motdepasse" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" name="motdepasse" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Prix</label>
-                        <input type="number" class="form-control" name="prix" required>
-                    </div>  
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Description</label>
-                        <textarea class="form-control" name="description" required></textarea> 
-                    </div>
-                    <label for="saison">Choisissez une saison :</label>
-                        <select name="saison" id="saison">
-                            <option value="printemps">Printemps</option>
-                            <option value="ete">Été</option>
-                            <option value="automne">Automne</option>
-                            <option value="hiver">Hiver</option>
-                        </select>
-
-                    <button type="submit" name="valider" class="btn btn-primary">Ajouter un nouveau produit</button>
+                    <input type="submit" class="btn btn-primary" name="envoyer" value="Se connecter">
                 </form>
+                <br>
+                <li class="nav-item">
+                    <a href="inscription.php" class="btn btn-primary mx-2 mb-2">S'inscrire</a>
+                </li> 
+                
+            </div>
+            <div class="col-md-3">
+                
+            </div>
         </div>
     </div>
-</div>
-    
-    
-    
-    
     
     
     
@@ -126,24 +157,3 @@ $mes_produits=afficher() ;
 </body>
 </html>
 
-<?php
-    if(isset($_POST['valider'])){
-        if (isset($_POST['image']) AND isset($_POST['nom']) AND isset($_POST['prix']) AND isset($_POST['description']) AND isset($_POST['saison'])){
-            if (!empty($_POST['image']) AND !empty($_POST['nom']) AND !empty($_POST['prix']) AND !empty($_POST['description'])){
-                $image = htmlspecialchars(strip_tags($_POST['image']));
-                $nom= htmlspecialchars(strip_tags($_POST['nom']));
-                $prix= htmlspecialchars(strip_tags($_POST['prix']));
-                $description= htmlspecialchars(strip_tags($_POST['description'])); 
-                $saison= htmlspecialchars(strip_tags($_POST['saison']));
-
-                try{
-                    ajouter($image, $nom, $prix, $description, $saison);
-                }catch(Exception $e){   
-                    $e->getMessage();
-                }
-
-                
-            }
-        }
-    }
-?>

@@ -1,6 +1,16 @@
 <?php
+session_start();
+if (!isset($_SESSION["secondarySession"])){
+    header("Location: login.php");
+}
+
+if (empty($_SESSION["secondarySession"])){
+    header("Location: login.php");
+}
+
+
 require("commande.php");
-$mes_produits=afficher() ;
+$mes_produits=afficher_si_stock() ;
 ?>
 
 <!DOCTYPE html>
@@ -52,10 +62,10 @@ $mes_produits=afficher() ;
                 <nav class="col-lg-8 col-md-12">
                     <ul class="nav justify-content-center justify-content-lg-end">
                         <li class="nav-item">
-                            <a href="test.php" class="btn btn-primary mx-2 mb-2">Accueil</a>
+                            <a href="admin/ajouter.php" class="btn btn-primary mx-2 mb-2">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="supprimer.php" class="btn btn-primary mx-2 mb-2">Nos Produits</a>
+                            <a href="admin/supprimer.php" class="btn btn-primary mx-2 mb-2">Nos Produits</a>
                         </li>
 
                         <li class="nav-item">
@@ -71,6 +81,9 @@ $mes_produits=afficher() ;
                         <li class="nav-item">
                             <a href="/../contact.html" class="btn btn-primary mx-2 mb-2">Contact</a>
                         </li>  
+                        <div style="display: flex;justify-content: flex-end;">
+                                <a href="deconnexion.php" class="btn btn-danger">Se deconnecter</a>
+                        </div>
                     </ul>
                 </nav>
             </div>
