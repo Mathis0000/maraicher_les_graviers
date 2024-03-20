@@ -1,3 +1,7 @@
+<?php
+require("commande.php");
+$mes_produits=afficher_si_automne() ;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +30,7 @@
 
     <div class="img-container">
         <!-- Image cliquable -->
-        <a href="#acceuil">
+        <a href="#acceuil" target="_blank">
             <img src="png/fleche.png" alt="retour en haut" class="img-fluid">
         </a>
     </div>
@@ -72,26 +76,38 @@
         </div>
     </header>
 
+    <div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <div class="row">
-            <!-- Colonne pour Facebook -->
-            <div class="col-md-6">
-                <h2>Flux Facebook</h2>
-                <div class="facebook-plugin">
-                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FJMlesgraviers&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="500" height="600" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+      <?php foreach($mes_produits as $un_produit):?>
+        <div class="col">
+          <div class="card shadow-sm">
+           <title><?=$un_produit->nom ?></title><rect width="100%" height="100%" fill="#55595c"/><img src="/../png/nos_produits/<?=$un_produit->image ?>">
+            <div class="card-body">
+              <p class="card-text"><?=$un_produit->description ?></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Acheter</button>
                 </div>
+                <small class="text-body-secondary"><?=$un_produit->prix ?> euros</small>
+              </div>
             </div>
-            <!-- Colonne pour Instagram -->
-            <div class="col-md-6">
-                <h2>Flux Instagram</h2>
-                <!-- Ajoutez le code pour le widget Instagram ici -->
-                <!-- Remplacez "YOUR_INSTAGRAM_WIDGET_CODE" par le code de votre widget Instagram -->
-                <div class="instagram-widget">
-                    YOUR_INSTAGRAM_WIDGET_CODE
-                </div>
-            </div>
+          </div>
         </div>
+        <?php endforeach; ?>
+
     </div>
+</div>
+    
+    
+    
+    
+    
+    
+    
+    
 
     <footer class="bg-dark text-white text-center py-3">
         <p>&copy; 2024 Votre Entreprise. Tous droits réservés.</p>

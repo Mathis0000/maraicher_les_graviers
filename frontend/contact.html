@@ -36,7 +36,7 @@
     
 
     <!-- En-tête -->
-    <header class="container-fluid py-3 custom-header mb-2">
+    <header class="container-fluid py-3 custom-header">
         <div class="container">
             <div class="row align-items-center">
                 <!-- Logo dans le premier tiers -->
@@ -47,24 +47,24 @@
                 <nav class="col-lg-8 col-md-12">
                     <ul class="nav justify-content-center justify-content-lg-end">
                         <li class="nav-item">
-                            <a href="index.html" class="btn btn-primary mx-2 mb-2">Accueil</a>
+                            <a href="index.html" class="btn btn-success mx-2 mb-2">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="nos_produits.html" class="btn btn-primary mx-2 mb-2">Nos Produits</a>
+                            <a href="nos_produits.html" class="btn btn-success mx-2 mb-2">Nos Produits</a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="recette.html" class="btn btn-primary mx-2 mb-2">Recettes</a>
+                            <a href="recette.html" class="btn btn-success mx-2 mb-2">Recettes</a>
                         </li>
                         <li class="nav-item">
-                            <a href="actualite.html" class="btn btn-primary mx-2 mb-2">Actualités</a>
+                            <a href="actualite.html" class="btn btn-success mx-2 mb-2">Actualités</a>
                         </li>
                       
                         <li class="nav-item">
-                            <a href="index.html#partenaire" class="btn btn-primary mx-2 mb-2">Partenaires</a>
+                            <a href="backend/index.php" class="btn btn-success mx-2 mb-2">Drive</a>
                         </li>                        
                         <li class="nav-item">
-                            <a href="contact.html" class="btn btn-primary mx-2 mb-2">Contact</a>
+                            <a href="contact.html" class="btn btn-success mx-2 mb-2">Contact</a>
                         </li>  
                     </ul>
                 </nav>

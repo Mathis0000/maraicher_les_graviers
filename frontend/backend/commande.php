@@ -22,6 +22,73 @@ function afficher_si_stock(){
         require("connexion.php");
         
         // Sélectionnez les produits avec un stock en kilos supérieur à zéro OU un stock en unités supérieur à zéro
+        $req = $access->prepare("SELECT * FROM produits WHERE saison='printemps'");
+        
+        $req->execute();
+        $data = $req->fetchAll(PDO::FETCH_OBJ);
+        $req->closeCursor();
+        return $data;
+    } catch (PDOException $e) {
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}
+function afficher_si_ete(){
+    try {
+        require("connexion.php");
+        
+        // Sélectionnez les produits avec un stock en kilos supérieur à zéro OU un stock en unités supérieur à zéro
+        $req = $access->prepare("SELECT * FROM produits WHERE saison='ete'");
+        
+        $req->execute();
+        $data = $req->fetchAll(PDO::FETCH_OBJ);
+        $req->closeCursor();
+        return $data;
+    } catch (PDOException $e) {
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}function afficher_si_automne(){
+    try {
+        require("connexion.php");
+        
+        // Sélectionnez les produits avec un stock en kilos supérieur à zéro OU un stock en unités supérieur à zéro
+        $req = $access->prepare("SELECT * FROM produits WHERE saison='automne'");
+        
+        $req->execute();
+        $data = $req->fetchAll(PDO::FETCH_OBJ);
+        $req->closeCursor();
+        return $data;
+    } catch (PDOException $e) {
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}function afficher_si_hiver(){
+    try {
+        require("connexion.php");
+        
+        // Sélectionnez les produits avec un stock en kilos supérieur à zéro OU un stock en unités supérieur à zéro
+        $req = $access->prepare("SELECT * FROM produits WHERE saison='hiver'");
+        
+        $req->execute();
+        $data = $req->fetchAll(PDO::FETCH_OBJ);
+        $req->closeCursor();
+        return $data;
+    } catch (PDOException $e) {
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}
+
+function afficher_si_printemps(){
+    try {
+        require("connexion.php");
+        
+        // Sélectionnez les produits avec un stock en kilos supérieur à zéro OU un stock en unités supérieur à zéro
         $req = $access->prepare("SELECT * FROM produits WHERE stock_kg > 0 OR stock_unite > 0 ORDER BY id DESC");
         
         $req->execute();
@@ -34,6 +101,7 @@ function afficher_si_stock(){
         return "Erreur PHP: " . $e->getMessage();
     }
 }
+
 
 
 

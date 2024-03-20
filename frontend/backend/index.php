@@ -90,7 +90,7 @@ $mes_produits=afficher_si_stock() ;
         </div>
     </header>
 
-<h1>test</h1>
+
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
 
