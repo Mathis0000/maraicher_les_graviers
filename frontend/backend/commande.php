@@ -1,12 +1,42 @@
 <?php
 
-function ajouter($image, $nom, $prix, $description, $saison){
+function ajouter($targetFile, $nom, $prix, $description, $saison, $stock_kg, $stock_unite){
     if (require("connexion.php")){
-        $req = $access->prepare("INSERT INTO produits (image, nom, prix, description, saison) VALUES (?, ?, ?, ?, ?)");
-        $req->execute([$image, $nom, $prix, $description, $saison]);
+        $req = $access->prepare("INSERT INTO produits (image, nom, prix, description, saison, stock_kg, stock_unite) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $req->execute([$targetFile, $nom, $prix, $description, $saison,$stock_kg, $stock_unite]);
         
     }
 }
+function get_image($id) {
+    if (require("connexion.php")) {
+        $req = $access->prepare("SELECT image FROM produits WHERE id = ?");
+        $req->execute([$id]);
+        $result = $req->fetch(PDO::FETCH_ASSOC);
+        return $result['image'];
+    } else {
+        return null;
+    }
+}
+function get_data($id_produit){
+    if (require("connexion.php")) {
+        // Préparez la requête SQL pour sélectionner les données du produit en fonction de son ID
+        $req = $access->prepare("SELECT * FROM produits WHERE id = ?");
+        // Exécutez la requête avec l'ID du produit comme paramètre
+        $req->execute([$id_produit]);
+        // Récupérez toutes les lignes de résultats sous forme d'objets
+        $data = $req->fetchAll(PDO::FETCH_OBJ);
+        // Fermez la requête pour libérer les ressources
+        $req->closeCursor();
+        // Retournez les données récupérées
+        return $data;
+    } else {
+        // Gérez le cas où la connexion à la base de données a échoué
+        // Vous pouvez afficher un message d'erreur ou enregistrer des logs
+        return false;
+    }
+}
+
+
 
 function afficher(){
     if (require("connexion.php")){
@@ -167,7 +197,7 @@ function get_user($mail, $motdepasse){
 
 
 
-function modifier($image, $nom, $prix, $description, $id, $saison, $stock_kg, $stock_unite)
+function modifier($targetFile, $nom, $prix, $description, $id, $saison, $stock_kg, $stock_unite)
 {
     try {
         require("connexion.php"); // Assurez-vous que la connexion est établie
@@ -175,7 +205,7 @@ function modifier($image, $nom, $prix, $description, $id, $saison, $stock_kg, $s
         $req = $access->prepare("UPDATE produits SET image = ?, nom = ?, prix = ?, description = ?, saison = ?, stock_kg = ? ,stock_unite = ? WHERE id = ?");
         
         // Exécute la requête en liant les paramètres
-        $req->execute([$image, $nom, $prix, $description, $saison, $stock_kg, $stock_unite, $id]);
+        $req->execute([$targetFile, $nom, $prix, $description, $saison, $stock_kg, $stock_unite, $id]);
 
         // Ferme la connexion à la base de données
         $req->closeCursor();
@@ -200,22 +230,51 @@ function inscription($nom, $prenom, $mail, $motdepasse){
 }
 
 
-// Fonction pour ajouter un produit au panier
-function ajouter_au_panier($id_produit, $quantite) {
-    if (!isset($_SESSION['panier'])) {
-        $_SESSION['panier'] = [];
-    }
 
-    // Vérifier si le produit est déjà dans le panier
-    if (isset($_SESSION['panier'][$id_produit])) {
-        // Si oui, augmentez simplement la quantité
-        $_SESSION['panier'][$id_produit] += $quantite;
-    } else {
-        // Sinon, ajoutez le produit au panier
-        $_SESSION['panier'][$id_produit] = $quantite;
+
+// Fonction pour ajouter une commande
+
+function commande($user_id, $date_commande, $montant_total){
+    if (require("connexion.php")){
+        $req = $access->prepare("INSERT INTO commande (user_id, date_commande, montant_total) VALUES (?,?, ?)");
+        $req->execute([$user_id, $date_commande,  $montant_total]);
+        $commande_id = $access->lastInsertId();
+        $req->closeCursor();
     }
+    return $commande_id;
+
 }
 
+function detail_commande($commande_id, $produit_id, $quantite){
+    if (require("connexion.php")){
+        $req = $access->prepare("INSERT INTO commande_produit (commande_id, produit_id, quantite) VALUES (?, ?, ?)");
+        $req->execute([$commande_id, $produit_id, $quantite]);
+        $req->closeCursor();
+    }
 
+}
 
+function modifier_quantite_apres_commande( $id, $stock_kg, $stock_unite)
+{
+    try {
+        require("connexion.php"); // Assurez-vous que la connexion est établie
+        
+        $req = $access->prepare("UPDATE produits SET  stock_kg = ? ,stock_unite = ? WHERE id = ?");
+        
+        // Exécute la requête en liant les paramètres
+        $req->execute([$stock_kg, $stock_unite, $id]);
+
+        // Ferme la connexion à la base de données
+        $req->closeCursor();
+
+        // Retourne un message de succès
+        return "Produit mis à jour avec succès.";
+    } catch (PDOException $e) {
+        // En cas d'erreur PDO, affichez l'erreur
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        // En cas d'autres erreurs, affichez l'erreur
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}
 ?>

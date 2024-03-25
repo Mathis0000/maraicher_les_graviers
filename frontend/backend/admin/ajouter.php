@@ -9,7 +9,40 @@ if (empty($_SESSION["mainSession"])){
 }
 
 require("../commande.php");
-$mes_produits=afficher() ;
+
+$targetDir = "../../png/nos_produits/"; // Répertoire où vous souhaitez stocker les images téléchargées
+
+// Vérifiez si le fichier a été correctement téléchargé
+
+if(isset($_POST['valider'])){
+    if(isset($_FILES["image"])) {
+        $targetFile = basename($_FILES["image"]["name"]); // Chemin complet du fichier téléchargé
+
+        // Récupérer l'extension du fichier téléchargé
+        $extension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    }
+    if (isset($_POST['nom']) && isset($_POST['prix']) && isset($_POST['description']) && isset($_POST['saison'])){
+        if (!empty($_POST['nom']) && !empty($_POST['prix']) && !empty($_POST['description'])){
+            $nom = htmlspecialchars(strip_tags($_POST['nom']));
+            $prix = htmlspecialchars(strip_tags($_POST['prix']));
+            $description = htmlspecialchars(strip_tags($_POST['description'])); 
+            $saison = htmlspecialchars(strip_tags($_POST['saison']));
+            $stock_kg = !empty($_POST['stock_kg']) ? htmlspecialchars(strip_tags($_POST['stock_kg'])) : 0;
+            $stock_unite = !empty($_POST['stock_unite']) ? htmlspecialchars(strip_tags($_POST['stock_unite'])) : 0;
+            
+
+
+            try {
+                ajouter($targetFile, $nom, $prix, $description, $saison, $stock_kg, $stock_unite);
+                echo "Le produit a été ajouté avec succès à la base de données.";
+            } catch(Exception $e) {   
+                echo "Une erreur s'est produite lors de l'ajout du produit à la base de données : " . $e->getMessage();
+            }       
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,10 +89,10 @@ $mes_produits=afficher() ;
         <div class="container">
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Titre de l'image (ex: cerise.jpg)</label>
-                        <input type="name" class="form-control" name="image" required>
+                        <label for="image" class="form-label">Sélectionner une image :</label>
+                        <input type="file" class="form-control" id="image" name="image" accept=".jpg, .png" required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nom du produit</label>
@@ -80,6 +113,14 @@ $mes_produits=afficher() ;
                             <option value="automne">Automne</option>
                             <option value="hiver">Hiver</option>
                         </select>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Stock en kilos</label>
+                            <input type="number" class="form-control" name="stock_kg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Stock en unite</label>
+                            <input type="number" class="form-control" name="stock_unite" >
+                        </div>
 
                     <button type="submit" name="valider" class="btn btn-primary">Ajouter un nouveau produit</button>
                 </form>
@@ -93,24 +134,3 @@ $mes_produits=afficher() ;
 </body>
 </html>
 
-<?php
-    if(isset($_POST['valider'])){
-        if (isset($_POST['image']) AND isset($_POST['nom']) AND isset($_POST['prix']) AND isset($_POST['description']) AND isset($_POST['saison'])){
-            if (!empty($_POST['image']) AND !empty($_POST['nom']) AND !empty($_POST['prix']) AND !empty($_POST['description'])){
-                $image = htmlspecialchars(strip_tags($_POST['image']));
-                $nom= htmlspecialchars(strip_tags($_POST['nom']));
-                $prix= htmlspecialchars(strip_tags($_POST['prix']));
-                $description= htmlspecialchars(strip_tags($_POST['description'])); 
-                $saison= htmlspecialchars(strip_tags($_POST['saison']));
-
-                try{
-                    ajouter($image, $nom, $prix, $description, $saison);
-                }catch(Exception $e){   
-                    $e->getMessage();
-                }
-
-                
-            }
-        }
-    }
-?>

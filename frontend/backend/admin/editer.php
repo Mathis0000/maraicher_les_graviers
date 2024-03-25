@@ -18,13 +18,24 @@ if (isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id'])) {
 }
 
 $mes_produits = afficher();
+$targetDir = "../../png/nos_produits/"; // Répertoire où vous souhaitez stocker les images téléchargées
 
-if (isset($_POST['valider'])) {
+// Vérifiez si le fichier a été correctement téléchargé
+if(isset($_POST['valider'])){
+    // Vérifiez si un fichier a été téléchargé
+    if(isset($_FILES["image"]) && $_FILES["image"]["error"] != UPLOAD_ERR_NO_FILE) {
+        $targetFile = basename($_FILES["image"]["name"]); // Chemin complet du fichier téléchargé
+
+        // Récupérer l'extension du fichier téléchargé
+        $extension = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    } else { 
+        $targetFile =get_image($id); // Utilisez le nom de l'image actuelle
+    }
+
     // Assurez-vous que toutes les données POST nécessaires sont définies et non vides
-    $required_fields = ['image', 'nom', 'prix', 'description', 'saison', 'stock_kg', 'stock_unite'];
+    $required_fields = ['nom', 'prix', 'description', 'saison', 'stock_kg', 'stock_unite'];
     if (array_diff($required_fields, array_keys($_POST)) === []) {
         // Récupérez les données POST
-        $image = htmlspecialchars(strip_tags($_POST['image']));
         $nom = htmlspecialchars(strip_tags($_POST['nom']));
         $prix = htmlspecialchars(strip_tags($_POST['prix']));
         $description = htmlspecialchars(strip_tags($_POST['description']));
@@ -34,7 +45,7 @@ if (isset($_POST['valider'])) {
 
         // Essayez de modifier le produit
         try {
-            modifier($image, $nom, $prix, $description, $id, $saison, $stock_kg, $stock_unite);
+            modifier($targetFile, $nom, $prix, $description, $id, $saison, $stock_kg, $stock_unite);
             header('Location: ajouter.php');
             exit(); // Terminer le script après une redirection
         } catch (Exception $e) {
@@ -44,6 +55,8 @@ if (isset($_POST['valider'])) {
         echo "Tous les champs doivent être remplis.";
     }
 }
+
+
 ?>
 
 
@@ -93,10 +106,10 @@ if (isset($_POST['valider'])) {
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <?php foreach ($mes_produits as $produit): ?>
                 <?php if ($produit->id == $id): ?>
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">L'image du produit</label>
-                            <input type="name" class="form-control" name="image" value="<?= $produit->image ?>" required>
+                            <label for="image" class="form-label">Sélectionner une image :</label>
+                            <input type="file" class="form-control" id="image" name="image" accept=".jpg, .png" >
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Nom du produit</label>

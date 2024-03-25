@@ -77,8 +77,8 @@ $mes_produits=afficher() ;
         </td>
         <td><?= $produit->nom ?></td>
         <td style="font-weight: bold; color: green;"><?= $produit->prix ?>€</td>
-        <td><?= substr($produit->description, 0, 100); ?>...</td>
-        <td><?= $produit->saison ?></td>
+        <td><?= $produit->stock_kg ?></td>
+        <td><?= $produit->stock_unite ?></td>
         <td>
             <a href="editer.php?id=<?= $produit->id ?>" class="btn btn-primary">
                 <i class="fa fa-pencil" style="font-size: 20px;"></i> Modifier
