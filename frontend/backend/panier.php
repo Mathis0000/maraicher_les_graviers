@@ -167,10 +167,7 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
     </div>
 
     
-    
-    
-
-    <!-- En-tête -->
+ 
     <header class="container-fluid py-3 custom-header mb-2">
         <div class="container">
             <div class="row align-items-center">
@@ -182,28 +179,22 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
                 <nav class="col-lg-8 col-md-12">
                     <ul class="nav justify-content-center justify-content-lg-end">
                         <li class="nav-item">
-                            <a href="admin/ajouter.php" class="btn btn-primary mx-2 mb-2">Accueil</a>
+                            <a href="../index.html" class="btn btn-success mx-2 mb-2">Accueil</a>
+                        </li>                        
+                        <li class="nav-item">
+                            <a href="index.php" class="btn btn-success mx-2 mb-2">Le Drive</a>
                         </li>
                         <li class="nav-item">
-                            <a href="admin/supprimer.php" class="btn btn-primary mx-2 mb-2">Nos Produits</a>
+                            <a href="panier.php" class="btn btn-success mx-2 mb-2">Mon Panier</a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="/../recette.html" class="btn btn-primary mx-2 mb-2">Recettes</a>
+                            <a href="mes_commandes.php" class="btn btn-success mx-2 mb-2">Mes Commandes</a>
                         </li>
+ 
                         <li class="nav-item">
-                            <a href="/../actualite.html" class="btn btn-primary mx-2 mb-2">Actualités</a>
+                            <a href="admin/deconnexion.php" class="btn btn-danger">Se deconnecter</a>
                         </li>
-                      
-                        <li class="nav-item">
-                            <a href="/../index.html#partenaire" class="btn btn-primary mx-2 mb-2">Partenaires</a>
-                        </li>                        
-                        <li class="nav-item">
-                            <a href="/../contact.html" class="btn btn-primary mx-2 mb-2">Contact</a>
-                        </li>  
-                        <div style="display: flex;justify-content: flex-end;">
-                                <a href="deconnexion.php" class="btn btn-danger">Se deconnecter</a>
-                        </div>
                     </ul>
                 </nav>
             </div>

@@ -277,4 +277,57 @@ function modifier_quantite_apres_commande( $id, $stock_kg, $stock_unite)
         return "Erreur PHP: " . $e->getMessage();
     }
 }
+
+function get_commande($id){
+    try {
+        require("connexion.php"); // Assurez-vous que la connexion est établie
+        
+        $req = $access->prepare("SELECT * FROM commande WHERE user_id = ? ORDER BY date_commande DESC");
+        
+        // Exécute la requête en liant les paramètres
+        $req->execute([$id]);
+
+        // Récupère les résultats de la requête
+        $resultat = $req->fetchAll(PDO::FETCH_OBJ);
+
+        // Ferme la connexion à la base de données
+        $req->closeCursor();
+
+        // Retourne les résultats de la requête
+        return $resultat;
+    } catch (PDOException $e) {
+        // En cas d'erreur PDO, affichez l'erreur
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        // En cas d'autres erreurs, affichez l'erreur
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}
+
+function get_commande_produits($commande_id){
+    try {
+        require("connexion.php"); // Assurez-vous que la connexion est établie
+        
+        $req = $access->prepare("SELECT * FROM commande_produit WHERE commande_id = ?");
+        
+        // Exécute la requête en liant les paramètres
+        $req->execute([$commande_id]);
+
+        // Récupère les résultats de la requête
+        $resultat = $req->fetchAll(PDO::FETCH_OBJ);
+
+        // Ferme la connexion à la base de données
+        $req->closeCursor();
+
+        // Retourne les résultats de la requête
+        return $resultat;
+    } catch (PDOException $e) {
+        // En cas d'erreur PDO, affichez l'erreur
+        return "Erreur SQL: " . $e->getMessage();
+    } catch (Exception $e) {
+        // En cas d'autres erreurs, affichez l'erreur
+        return "Erreur PHP: " . $e->getMessage();
+    }
+}
+
 ?>
