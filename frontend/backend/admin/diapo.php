@@ -50,7 +50,7 @@ if(isset($_POST['valider'])){
             echo "Votre fichier $filename a été téléchargé avec succès.<br>";
         }
 
-        $maxImages = 10;
+        $maxImages = 20;
 
         // Vérifie le nombre total d'images
         $imagesCount = count(glob($targetDir . "*.jpg")) + count(glob($targetDir . "*.jpeg")) + count(glob($targetDir . "*.gif")) + count(glob($targetDir . "*.png"));

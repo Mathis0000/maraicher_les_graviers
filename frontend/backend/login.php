@@ -93,7 +93,7 @@ if(isset($_POST["envoyer"])){
                             <a href="/../recette.html" class="btn btn-primary mx-2 mb-2">Recettes</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/../actualite.html" class="btn btn-primary mx-2 mb-2">Actualités</a>
+                            <a href="/../actualite.php" class="btn btn-primary mx-2 mb-2">Actualités</a>
                         </li>
                       
                         <li class="nav-item">

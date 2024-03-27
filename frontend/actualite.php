@@ -65,7 +65,7 @@
 
     <div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
             <?php 
             $dir = 'diapo/*.{jpg,jpeg,gif,png}';
             $files = glob($dir, GLOB_BRACE);
@@ -73,14 +73,21 @@
                 $fileName = basename($image); // Obtenez le nom du fichier à partir du chemin complet
             ?>
             <div class="col">
-                <div class="card">
-                    <img src='<?php echo $image; ?>' class="card-img-top custom-img" alt='<?php echo $fileName; ?>'>
+                <div class="card mb-4">
+                    <img src='<?php echo $image; ?>' class="card-img-top img-fluid rounded" style="object-fit: cover; width: 100%; height: 300px;" alt='<?php echo $fileName; ?>'>
                 </div>
             </div>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
 
 
 

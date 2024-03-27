@@ -72,13 +72,18 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
     if (isset($_POST['date_commande'])) {
         // Récupérer les informations sur la réservation
         $date_commande = $_POST['date_commande'];
-
         $date = new DateTime($date_commande);
-        
+
+        $now = new DateTime();
+        $date_commande_limite = new DateTime($_POST['date_commande']);
+        // Ajouter une semaine à la date actuelle
+        $limite_commande = clone $now;
+        $limite_commande->add(new DateInterval('P1W')); // Ajoute une semaine
+
         // Récupérer l'heure de la commande
         $heure_commande = $date->format('H:i');
-        if ($heure_commande >= '14:00' && $heure_commande <= '19:00') {
-
+        if ($heure_commande >= '14:00' && $heure_commande <= '19:00' ) {
+            if($date_commande_limite <= $limite_commande && $date_commande_limite >= $now){
             // Récupérer l'identifiant de l'utilisateur connecté depuis la session
             $user_id = $_SESSION['secondarySession']['id'];
 
@@ -130,7 +135,8 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
             // Rediriger vers une page de confirmation ou une autre page appropriée
             header("Location: index.php");
             exit; // Arrêter l'exécution du script après la redirection
-        } else {
+        }            echo "<div class='alert alert-danger' role='alert'>Pour garantir des produits frais, veuillez avoir une commande dans moins d'une semaine.</div>";
+    } else {
             echo "<div class='alert alert-danger' role='alert'>Les réservations ne sont possibles qu'entre 14h et 19h.</div>";
         }
     }
@@ -143,6 +149,7 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
 
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
