@@ -245,10 +245,10 @@ function commande($user_id, $date_commande, $montant_total){
 
 }
 
-function detail_commande($commande_id, $produit_id, $quantite){
+function detail_commande($commande_id, $produit_id, $stock_kg,$stock_unite){
     if (require("connexion.php")){
-        $req = $access->prepare("INSERT INTO commande_produit (commande_id, produit_id, quantite) VALUES (?, ?, ?)");
-        $req->execute([$commande_id, $produit_id, $quantite]);
+        $req = $access->prepare("INSERT INTO commande_produit (commande_id, produit_id, stock_kg,stock_unite) VALUES (?, ?, ?,?)");
+        $req->execute([$commande_id, $produit_id, $stock_kg,$stock_unite]);
         $req->closeCursor();
     }
 

@@ -48,7 +48,7 @@
                             <a href="recette.html" class="btn btn-success mx-2 mb-2">Recettes</a>
                         </li>
                         <li class="nav-item">
-                            <a href="actualite.html" class="btn btn-success mx-2 mb-2">Actualités</a>
+                            <a href="actualite.php" class="btn btn-success mx-2 mb-2">Actualités</a>
                         </li>
                       
                         <li class="nav-item">
@@ -63,26 +63,31 @@
         </div>
     </header>
 
+    <div class="album py-5 bg-body-tertiary">
     <div class="container">
-        <div class="row">
-            <!-- Colonne pour Facebook -->
-            <div class="col-md-6">
-                <h2>Flux Facebook</h2>
-                <div class="facebook-plugin">
-                    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FJMlesgraviers&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="500" height="600" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <?php 
+            $dir = 'diapo/*.{jpg,jpeg,gif,png}';
+            $files = glob($dir, GLOB_BRACE);
+            foreach($files as $image) :
+                $fileName = basename($image); // Obtenez le nom du fichier à partir du chemin complet
+            ?>
+            <div class="col">
+                <div class="card">
+                    <img src='<?php echo $image; ?>' class="card-img-top custom-img" alt='<?php echo $fileName; ?>'>
                 </div>
             </div>
-            <!-- Colonne pour Instagram -->
-            <div class="col-md-6">
-                <h2>Flux Instagram</h2>
-                <!-- Ajoutez le code pour le widget Instagram ici -->
-                <!-- Remplacez "YOUR_INSTAGRAM_WIDGET_CODE" par le code de votre widget Instagram -->
-                <div class="instagram-widget">
-                    YOUR_INSTAGRAM_WIDGET_CODE
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
+</div>
+
+
+
+
+
+
+
 
     <footer class="bg-dark text-white text-center py-3">
         <p>&copy; 2024 Votre Entreprise. Tous droits réservés.</p>

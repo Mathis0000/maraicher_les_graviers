@@ -22,6 +22,12 @@
     height: 100%;
     object-fit: cover; /* Assure que l'image remplit entièrement le conteneur sans déformer l'aspect */
 }
+.custom-img {
+    min-width: 150px; /* Définir la largeur minimale */
+    min-height: 150px; /* Définir la hauteur minimale */
+    object-fit: cover; /* Ajuster la taille de l'image pour remplir le conteneur */
+}
+
 
 
 
@@ -113,3 +119,5 @@
       font-size: 3.5rem;
     }
   }
+
+  

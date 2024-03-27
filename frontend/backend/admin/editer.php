@@ -91,6 +91,9 @@ if(isset($_POST['valider'])){
                     <li class="nav-item">
                         <a href="modifier.php" class="btn btn-primary mx-2 mb-2">Editer produit</a>
                     </li>
+                    <li class="nav-item">
+                                <a href="diapo.php" class="btn btn-primary mx-2 mb-2">Diapo</a>
+                            </li>         
                     <div style="display: flex;justify-content: flex-end;">
                         <a href="deconnexion.php" class="btn btn-danger">Se deconnecter</a>
                     </div>

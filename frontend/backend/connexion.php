@@ -1,5 +1,5 @@
 <?php
-include('/dev/config.php');
+include('/var/config.php');
 
 try {
     $access = new PDO("mysql:host=$hostname;dbname=$database;charset=utf8", $username, $password);

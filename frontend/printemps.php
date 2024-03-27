@@ -52,7 +52,7 @@ $mes_produits=afficher_si_printemps() ;
                             <a href="recette.html" class="btn btn-success mx-2 mb-2">Recettes</a>
                         </li>
                         <li class="nav-item">
-                            <a href="actualite.html" class="btn btn-success mx-2 mb-2">Actualités</a>
+                            <a href="actualite.php" class="btn btn-success mx-2 mb-2">Actualités</a>
                         </li>
                       
                         <li class="nav-item">
@@ -66,31 +66,35 @@ $mes_produits=afficher_si_printemps() ;
             </div>
         </div>
     </header>
-
     <div class="album py-5 bg-body-tertiary">
     <div class="container">
-
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-      <?php foreach($mes_produits as $un_produit):?>
-        <div class="col">
-          <div class="card shadow-sm">
-           <title><?=$un_produit->nom ?></title><rect width="100%" height="100%" fill="#55595c"/><img src="/../png/nos_produits/<?=$un_produit->image ?>">
-            <div class="card-body">
-              <p class="card-text"><?=$un_produit->description ?></p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Acheter</button>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <?php foreach($mes_produits as $un_produit): ?>
+                <div class="col">
+                    <div class="card h-100 shadow-sm mb-3" style="min-height: 200px;">
+                        <div class="card-body d-flex align-items-start">
+                            <img src="/../png/nos_produits/<?= $un_produit->image ?>" class="img-fluid me-3" alt="<?= $un_produit->nom ?>" style="width: 200px; height: 200px; object-fit: cover;">
+                            <div>
+                                <h5 class="card-title"><?= $un_produit->nom ?></h5>
+                                <p class="card-text"><?= $un_produit->description ?></p>
+                                <p class="text-body-secondary mb-0"><?= $un_produit->prix ?> euros</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <small class="text-body-secondary"><?=$un_produit->prix ?> euros</small>
-              </div>
-            </div>
-          </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
-
     </div>
 </div>
+
+
+
+
+
+
+
+
+
     
     
     

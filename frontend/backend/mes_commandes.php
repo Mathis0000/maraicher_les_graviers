@@ -91,10 +91,10 @@ $commandes = get_commande($user_id);
                     $produits_commande = get_commande_produits($commande->id);
                     foreach ($produits_commande as $produit) {
                         $details_produit = get_data($produit->produit_id);
-                        if ($details_produit) {
-                            echo '<p><strong>' . $details_produit[0]->nom . '</strong> - Quantité : ' . $produit->quantite .'</p>';
-                        } else {
-                            echo "<p>Produit introuvable</p>";
+                        if ($produit->stock_kg != 0) {
+                            echo '<p><strong>' . $details_produit[0]->nom . '</strong> - Quantité : ' . $produit->stock_kg .' kg </p>';
+                        } if ($produit->stock_unite != 0) {
+                            echo '<p><strong>' . $details_produit[0]->nom . '</strong> - Quantité : ' . $produit->stock_unite .'</p>';
                         }
                     }
                     ?>
@@ -103,6 +103,8 @@ $commandes = get_commande($user_id);
         </div>
     </div>
 <?php endforeach; ?>
+
+
 
 
 

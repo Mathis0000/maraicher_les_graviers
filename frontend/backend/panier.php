@@ -11,10 +11,9 @@ if (empty($_SESSION["secondarySession"])){
 
 require("commande.php");
 
-if (isset($_POST['id_produit']) && isset($_POST['quantite'])) {
-    // Récupère l'identifiant du produit et la nouvelle quantité envoyés depuis le formulaire
+if (isset($_POST['id_produit'])) {
+    // Récupère l'identifiant du produit envoyé depuis le formulaire
     $id_produit = $_POST['id_produit'];
-    $quantite = $_POST['quantite'];
 
     // Récupérer les détails du produit à partir de la base de données
     $details_produit = get_data($id_produit);
@@ -22,27 +21,33 @@ if (isset($_POST['id_produit']) && isset($_POST['quantite'])) {
     // Vérifie si les détails du produit existent et sont valides
     if ($details_produit !== false && !empty($details_produit)) {
         // Si le produit est vendu au poids
-        if ($details_produit[0]->stock_kg != 0) {
+        if ($details_produit[0]->stock_kg != 0 && isset($_POST['quantite_kg'])) {
+            // Récupère la nouvelle quantité en kilogrammes
+            $quantite_kg = $_POST['quantite_kg'];
             // Vérifie si la quantité demandée ne dépasse pas le stock disponible en kilogrammes
-            if ($quantite <= $details_produit[0]->stock_kg) {
-                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite"] = $quantite;
+            if ($quantite_kg <= $details_produit[0]->stock_kg) {
+                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite_kg"] = $quantite_kg;
             } else {
                 // Si la quantité demandée dépasse le stock disponible en kilogrammes, utilisez le stock maximal disponible
-                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite"] = $details_produit[0]->stock_kg;
+                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite_kg"] = $details_produit[0]->stock_kg;
             }
-        } else {
+        } elseif ($details_produit[0]->stock_unite != 0 && isset($_POST['quantite_unite'])) {
             // Si le produit est vendu par unité
+            // Récupère la nouvelle quantité en unités
+            $quantite_unite = $_POST['quantite_unite'];
             // Vérifie si la quantité demandée ne dépasse pas le stock disponible en unités
-            if ($quantite <= $details_produit[0]->stock_unite) {
-                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite"] = $quantite;
+            if ($quantite_unite <= $details_produit[0]->stock_unite) {
+                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite_unite"] = $quantite_unite;
             } else {
                 // Si la quantité demandée dépasse le stock disponible en unités, utilisez le stock maximal disponible
-                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite"] = $details_produit[0]->stock_unite;
+                $_SESSION["secondarySession"]["panier"][$id_produit]["quantite_unite"] = $details_produit[0]->stock_unite;
             }
         }
     }
     header("Location: panier.php");
 }
+
+
 
 
 
@@ -88,19 +93,19 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
                 // Vérifier si les détails du produit existent et sont valides
                 if ($details_produit !== false && !empty($details_produit)) {
                     // Calculer le montant total de chaque produit en multipliant le prix unitaire par la quantité
-                    $montant_produit = $produit['quantite'] * $details_produit[0]->prix;
+                    $montant_produit = ($details_produit[0]->stock_kg != 0) ? $produit['quantite_kg'] * $details_produit[0]->prix : $produit['quantite_unite'] * $details_produit[0]->prix;
                     // Ajouter le montant total de chaque produit au montant total de la commande
                     $montant_total += $montant_produit;
 
                     // Gérer les stocks en fonction du type de produit
                     if ($details_produit[0]->stock_kg == 0) {
                         // Si le produit est vendu par unité, mettre à jour le stock en unités
-                        $stock_unite = $details_produit[0]->stock_unite - $produit['quantite'];
+                        $stock_unite = $details_produit[0]->stock_unite - $produit['quantite_unite'];
                         // Mettre à jour le stock dans la base de données
                         modifier_quantite_apres_commande($produit_id, 0, $stock_unite);
                     } else {
                         // Si le produit est vendu au poids, mettre à jour le stock en kilogrammes
-                        $stock_kg = $details_produit[0]->stock_kg - $produit['quantite'];
+                        $stock_kg = $details_produit[0]->stock_kg - $produit['quantite_kg'];
                         // Mettre à jour le stock dans la base de données
                         modifier_quantite_apres_commande($produit_id, $stock_kg, 0);
                     }
@@ -110,10 +115,13 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
             // Ajouter une nouvelle commande dans la base de données
             $commande_id = commande($user_id, $date_commande, $montant_total);
 
-            // Parcourir chaque produit dans le panier et enregistrer les détails de chaque produit dans la table commande_produit
             foreach ($_SESSION["secondarySession"]["panier"] as $produit_id => $produit) {
-                detail_commande($commande_id, $produit_id, $produit['quantite']);
+                $quantite_kg = isset($produit['quantite_kg']) ? $produit['quantite_kg'] : 0;
+                $quantite_unite = isset($produit['quantite_unite']) ? $produit['quantite_unite'] : 0;
+                detail_commande($commande_id, $produit_id, $quantite_kg, $quantite_unite);
             }
+            
+
 
             // Remettre à zéro le panier
             $_SESSION["secondarySession"]["panier"] = array();
@@ -129,6 +137,7 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
 } else {
     echo "<div class='alert alert-danger' role='alert'>Votre panier est vide. Veuillez ajouter des produits avant de passer une commande.</div>";
 }
+
 
 
 
@@ -222,7 +231,7 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
                     foreach ($_SESSION["secondarySession"]["panier"] as $id_produit => $produit) {
                         // Récupérer les détails du produit à partir de la base de données en utilisant l'ID
                         $details_produit = get_data($id_produit);
-
+                    
                         // Vérifier si les détails du produit existent et sont valides
                         if ($details_produit !== false && !empty($details_produit)) {
                             // Maintenant, vous pouvez accéder aux informations du produit
@@ -232,12 +241,26 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
                             echo "<td>";
                             echo "<form action='' method='post' class='d-flex'>";
                             echo "<input type='hidden' name='id_produit' value='{$id_produit}'>";
-                            echo "<input type='number' style='width: 70px;' class='form-control me-2' name='quantite' value='{$produit['quantite']}' min='1'>";
+                            if (isset($produit['quantite_kg'])) {
+                                // Si la quantité est en kg, affichez le champ quantite_kg
+                                echo "<input type='number' style='width: 70px;' class='form-control me-2' name='quantite_kg' value='{$produit['quantite_kg']}' min='0.5' step='0.5'>";
+                            } elseif (isset($produit['quantite_unite'])) {
+                                // Si la quantité est en unité, affichez le champ quantite_unite
+                                echo "<input type='number' style='width: 70px;' class='form-control me-2' name='quantite_unite' value='{$produit['quantite_unite']}' min='1'>";
+                            }
                             echo "<button type='submit' class='btn btn-primary'>Modifier</button>";
                             echo "</form>";
                             echo "</td>";
                             echo "<td>{$details_produit[0]->prix}</td>"; 
-                            echo "<td>" . ($produit['quantite'] * $details_produit[0]->prix) . " euro</td>";
+                            echo "<td>";
+                            if (isset($produit['quantite_kg'])) {
+                                // Si la quantité est en kg, calculez le prix total en kg
+                                echo ($produit['quantite_kg'] * $details_produit[0]->prix) . " euros";
+                            } elseif (isset($produit['quantite_unite'])) {
+                                // Si la quantité est en unité, calculez le prix total en unité
+                                echo ($produit['quantite_unite'] * $details_produit[0]->prix) . " euros";
+                            }
+                            echo "</td>";
                             echo "<td>";
                             echo "<form action='' method='post'>";
                             echo "<input type='hidden' name='id_produit' value='{$id_produit}'>";
@@ -250,8 +273,8 @@ if (!empty($_SESSION["secondarySession"]["panier"])) {
                             // Gérer le cas où les détails du produit ne sont pas disponibles ou invalides
                             echo "<tr><td colspan='5'>Le produit correspondant à l'ID $id_produit n'existe pas ou ses détails sont introuvables</td></tr>";
                         }
-                        
-                    }}
+                    }
+                }
                 ?>
             </tbody>
         </table>

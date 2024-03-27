@@ -15,23 +15,40 @@ if (!isset($_SESSION["secondarySession"]["panier"])) {
     $_SESSION["secondarySession"]["panier"] = array();
 }
 
-if(isset($_POST['id_produit']) && isset($_POST['quantite'])) {
+if(isset($_POST['id_produit'])) {
     $id_produit = $_POST['id_produit'];
-    $quantite = $_POST['quantite'];
-
-
-    // Vérifie si le produit est déjà dans le panier
-    if (isset($_SESSION["secondarySession"]["panier"][$id_produit])) {
-        // Met à jour la quantité du produit existant dans le panier
-        $_SESSION["secondarySession"]["panier"][$id_produit]["quantite"] += $quantite;
-    } else {
-        // Ajoute le produit au panier avec la quantité spécifiée
-        $_SESSION["secondarySession"]["panier"][$id_produit] = array(
-            "quantite" => $quantite,
-            "id_produit" => $id_produit
-            // Vous pouvez également stocker d'autres informations sur le produit ici
-        );
+    if (isset($_POST['quantite_kg'])){
+        $quantite_kg = $_POST['quantite_kg'];
+        // Vérifie si le produit est déjà dans le panier
+        if (isset($_SESSION["secondarySession"]["panier"][$id_produit])) {
+            // Met à jour la quantité du produit existant dans le panier
+            $_SESSION["secondarySession"]["panier"][$id_produit]["quantite_kg"] += $quantite_kg;
+        } else {
+            // Ajoute le produit au panier avec la quantité spécifiée
+            $_SESSION["secondarySession"]["panier"][$id_produit] = array(
+                "quantite_kg" => $quantite_kg,
+                "id_produit" => $id_produit
+                // Vous pouvez également stocker d'autres informations sur le produit ici
+            );
+        }
     }
+    if (isset($_POST['quantite_unite'])){
+        $quantite_unite = $_POST['quantite_unite'];
+        // Vérifie si le produit est déjà dans le panier
+        if (isset($_SESSION["secondarySession"]["panier"][$id_produit])) {
+            // Met à jour la quantité du produit existant dans le panier
+            $_SESSION["secondarySession"]["panier"][$id_produit]["quantite_unite"] += $quantite_unite;
+        } else {
+            // Ajoute le produit au panier avec la quantité spécifiée
+            $_SESSION["secondarySession"]["panier"][$id_produit] = array(
+                "quantite_unite" => $quantite_unite,
+                "id_produit" => $id_produit
+                // Vous pouvez également stocker d'autres informations sur le produit ici
+            );
+        }
+    }
+
+
 }
 
 $mes_produits = afficher_si_stock();
@@ -103,33 +120,41 @@ $mes_produits = afficher_si_stock();
     <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <?php foreach($mes_produits as $un_produit):?>
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <!-- Utilisation de classes pour ajuster la taille de l'image -->
-                        <img src="/../png/nos_produits/<?=$un_produit->image ?>" class="card-img-top" alt="<?=$un_produit->nom ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?=$un_produit->nom ?></h5>
-                            <?php if ($un_produit->stock_kg != 0): ?>
-                                <p class="card-text"><?=$un_produit->stock_kg ?> kg</p>
-                            <?php endif; ?>
+        <?php foreach($mes_produits as $un_produit): ?>
+    <div class="col">
+        <div class="card shadow-sm d-flex flex-column align-items-center justify-content-start">
+            <!-- Utilisation de classes pour ajuster la taille de l'image -->
+            <img src="/../png/nos_produits/<?= $un_produit->image ?>" class="card-img-top align-items-center mt-2" style="width: 200px; height: 200px; object-fit: cover;" alt="<?= $un_produit->nom ?>">
+            <div class="card-body">
+                <h5 class="card-title"><?= $un_produit->nom ?></h5>
+                <?php if ($un_produit->stock_kg != 0): ?>
+                    <p class="card-text"><?= $un_produit->stock_kg ?> kg restant</p>
+                <?php endif; ?>
 
-                            <?php if ($un_produit->stock_unite != 0): ?>
-                                <p class="card-text"><?=$un_produit->stock_unite ?> en stock</p>
-                            <?php endif; ?>
+                <?php if ($un_produit->stock_unite != 0): ?>
+                    <p class="card-text"><?= $un_produit->stock_unite ?> en stock</p>
+                <?php endif; ?>
 
-                            <form action="" method="post">
-                                <!-- Champ d'entrée pour la quantité -->
-                                <input type="number" name="quantite" class="form-control mb-2" value="1" min="1" max="<?=$un_produit->stock_kg != 0 ? $un_produit->stock_kg : $un_produit->stock_unite ?>" required>
-                                <!-- Champ d'entrée caché pour l'ID du produit -->
-                                <input type="hidden" name="id_produit" value="<?=$un_produit->id ?>">
-                                <!-- Bouton pour ajouter au panier -->
-                                <button type="submit" class="btn btn-primary btn-block">Acheter</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+                <form action="" method="post">
+                    <!-- Champ d'entrée pour la quantité -->
+                    <?php if ($un_produit->stock_kg != 0): ?>
+                        <!-- Pour les produits vendus au kg -->
+                        <input type="number" name="quantite_kg" class="form-control mb-2" value="0.5" step="0.5" min="0.5" max="<?= $un_produit->stock_kg ?>" required>
+                    <?php else: ?>
+                        <!-- Pour les produits vendus en unités -->
+                        <input type="number" name="quantite_unite" class="form-control mb-2" value="1" min="1" max="<?= $un_produit->stock_unite ?>" required>
+                    <?php endif; ?>
+                    <!-- Champ d'entrée caché pour l'ID du produit -->
+                    <input type="hidden" name="id_produit" value="<?= $un_produit->id ?>">
+                    <!-- Bouton pour ajouter au panier -->
+                    <button type="submit" class="btn btn-primary btn-block">Acheter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+
         </div>
     </div>
 </div>
