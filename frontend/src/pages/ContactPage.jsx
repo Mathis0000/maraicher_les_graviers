@@ -1,7 +1,9 @@
+import heroImage from '../assets/hero.jpg';
+
 const ContactPage = () => {
   return (
     <div className="contact-page">
-      <section className="hero">
+      <section className="hero hero-home" style={{ '--hero-bg': `url(${heroImage})` }}>
         <h1>Nous trouver</h1>
         <p>Retrouvez-nous chaque semaine a ces trois endroits</p>
       </section>
