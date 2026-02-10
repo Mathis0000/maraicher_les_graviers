@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
+import heroImage from '../assets/hero.jpg';
 
 const HomePage = () => {
   return (
     <div className="home-page">
-      <section className="hero">
+      <section className="hero hero-home" style={{ '--hero-bg': `url(${heroImage})` }}>
         <h1>Maraîcher les graviers</h1>
         <p>Des produits frais et locaux, cultivés avec passion</p>
         <Link to="/products" className="btn btn-primary btn-lg">
