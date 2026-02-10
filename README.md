@@ -1,4 +1,4 @@
-# Maraîcher E-Commerce Platform
+﻿# Maraîcher E-Commerce Platform
 
 Une plateforme e-commerce complète pour maraîcher, permettant aux clients de commander des produits frais en ligne avec paiement à la livraison.
 
@@ -120,16 +120,16 @@ projet/
 
 Voir `/backend/README.md` pour la documentation complète de l'API.
 
-## Déploiement en Production
+## Déploiement en Production (Docker)
 
-Pour le déploiement en production :
+1. Copier `.env.prod.example` vers `.env.prod` et renseigner les valeurs.
+2. Lancer :
 
-1. Mettre à jour les variables d'environnement dans `.env`
-2. Définir `NODE_ENV=production`
-3. Utiliser un JWT_SECRET fort et sécurisé
-4. Configurer les origines CORS appropriées
-5. Mettre en place des certificats HTTPS/SSL
-6. Utiliser une configuration PostgreSQL adaptée à la production
+```bash
+docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+```
+
+Le reverse proxy Caddy gère automatiquement le HTTPS pour `DOMAIN`.
 
 ## Licence
 
