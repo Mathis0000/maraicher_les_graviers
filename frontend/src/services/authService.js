@@ -19,3 +19,13 @@ export const updateProfile = async (userData) => {
   const response = await api.put('/auth/update-profile', userData);
   return response.data.user;
 };
+
+export const requestPasswordReset = async (email) => {
+  const response = await api.post('/auth/forgot-password', { email });
+  return response.data;
+};
+
+export const resetPassword = async (token, password) => {
+  const response = await api.post('/auth/reset-password', { token, password });
+  return response.data;
+};

@@ -51,6 +51,19 @@ class User {
     const result = await db.query(query, values);
     return result.rows[0];
   }
+
+  static async updatePassword(id, password) {
+    const hashedPassword = await hashPassword(password);
+    const query = `
+      UPDATE users
+      SET password = $1
+      WHERE id = $2
+      RETURNING id
+    `;
+
+    const result = await db.query(query, [hashedPassword, id]);
+    return result.rows[0];
+  }
 }
 
 module.exports = User;

@@ -37,4 +37,19 @@ router.put(
   authController.updateProfile
 );
 
+router.post(
+  '/forgot-password',
+  [body('email').isEmail().withMessage('Please provide a valid email')],
+  authController.requestPasswordReset
+);
+
+router.post(
+  '/reset-password',
+  [
+    body('token').notEmpty().withMessage('Reset token is required'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  ],
+  authController.resetPassword
+);
+
 module.exports = router;
