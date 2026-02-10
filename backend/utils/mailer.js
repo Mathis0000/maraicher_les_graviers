@@ -1,20 +1,17 @@
-const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 
-const getMailerConfig = () => {
-  const apiKey = process.env.SENDGRID_API_KEY;
-  const fromEmail = process.env.SENDGRID_FROM_EMAIL;
-  const appBaseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-
-  return {
-    apiKey,
-    fromEmail,
-    appBaseUrl
-  };
-};
+const getMailerConfig = () => ({
+  host: process.env.BREVO_SMTP_HOST || 'smtp-relay.brevo.com',
+  port: Number(process.env.BREVO_SMTP_PORT || 587),
+  user: process.env.BREVO_SMTP_USER,
+  pass: process.env.BREVO_SMTP_PASS,
+  fromEmail: process.env.BREVO_FROM_EMAIL,
+  appBaseUrl: process.env.FRONTEND_URL || 'http://localhost:3000'
+});
 
 const isConfigured = () => {
-  const { apiKey, fromEmail } = getMailerConfig();
-  return Boolean(apiKey && fromEmail);
+  const { user, pass, fromEmail } = getMailerConfig();
+  return Boolean(user && pass && fromEmail);
 };
 
 const sendPasswordResetEmail = async ({ to, resetUrl }) => {
@@ -22,8 +19,13 @@ const sendPasswordResetEmail = async ({ to, resetUrl }) => {
     return false;
   }
 
-  const { apiKey, fromEmail } = getMailerConfig();
-  sgMail.setApiKey(apiKey);
+  const { host, port, user, pass, fromEmail } = getMailerConfig();
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: false,
+    auth: { user, pass }
+  });
 
   const subject = 'Reinitialisation du mot de passe';
   const text = [
@@ -32,7 +34,7 @@ const sendPasswordResetEmail = async ({ to, resetUrl }) => {
     'Vous avez demande la reinitialisation de votre mot de passe.',
     `Lien de reinitialisation : ${resetUrl}`,
     '',
-    'Si vous n\'etes pas a l\'origine de cette demande, ignorez cet email.'
+    "Si vous n'etes pas a l'origine de cette demande, ignorez cet email."
   ].join('\n');
 
   const html = `
@@ -43,7 +45,7 @@ const sendPasswordResetEmail = async ({ to, resetUrl }) => {
   `;
 
   try {
-    await sgMail.send({
+    await transporter.sendMail({
       to,
       from: fromEmail,
       subject,
@@ -52,11 +54,9 @@ const sendPasswordResetEmail = async ({ to, resetUrl }) => {
     });
     return true;
   } catch (error) {
-    console.error('SendGrid error:', error?.response?.body || error?.message || error);
+    console.error('Brevo SMTP error:', error?.message || error);
     return false;
   }
 };
 
-module.exports = {
-  sendPasswordResetEmail
-};
+module.exports = { sendPasswordResetEmail };
