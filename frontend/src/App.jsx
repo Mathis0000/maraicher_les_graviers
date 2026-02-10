@@ -12,6 +12,7 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import ContactPage from './pages/ContactPage';
 import './App.css';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/products" element={<ProductsPage />} />
+                <Route path="/contact" element={<ContactPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route
                   path="/checkout"

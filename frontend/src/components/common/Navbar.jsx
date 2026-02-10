@@ -21,6 +21,7 @@ const Navbar = () => {
         </Link>
         <ul className="navbar-menu">
           <li><Link to="/products">Produits</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
           {user && (
             <>
               <li>

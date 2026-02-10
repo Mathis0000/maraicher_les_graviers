@@ -7,7 +7,7 @@ yarn.lock
 .env
 .env.local
 .env.*.local
-
+.claude/
 # Logs
 logs/
 *.log
