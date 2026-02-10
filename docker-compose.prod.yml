@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   postgres:
     image: postgres:15-alpine
@@ -14,6 +12,7 @@ services:
       - ./backend/db/seeds.sql:/docker-entrypoint-initdb.d/02-seeds.sql
     networks:
       - maraicher_network
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
@@ -40,6 +39,7 @@ services:
         condition: service_healthy
     networks:
       - maraicher_network
+    restart: unless-stopped
 
   frontend:
     build:
@@ -52,6 +52,7 @@ services:
       - backend
     networks:
       - maraicher_network
+    restart: unless-stopped
 
   caddy:
     image: caddy:2-alpine
@@ -70,6 +71,7 @@ services:
       - backend
     networks:
       - maraicher_network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
