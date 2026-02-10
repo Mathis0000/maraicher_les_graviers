@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+﻿import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { CartContext } from '../../context/CartContext';
@@ -17,7 +17,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="navbar-brand">
-          <h1>🥕 Maraîcher</h1>
+          <h1>🥕 Maraîcher les graviers</h1>
         </Link>
         <ul className="navbar-menu">
           <li><Link to="/products">Produits</Link></li>
