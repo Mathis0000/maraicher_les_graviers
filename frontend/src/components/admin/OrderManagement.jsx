@@ -1,10 +1,12 @@
 ﻿import { useState, useEffect } from 'react';
+import { useToast } from '../../context/ToastContext';
 import * as orderService from '../../services/orderService';
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState('all');
   const [sortByClient, setSortByClient] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     fetchOrders();
@@ -23,9 +25,9 @@ const OrderManagement = () => {
     try {
       await orderService.updateOrderStatus(orderId, newStatus);
       fetchOrders();
-      alert('Statut mis à jour');
+      showToast('Statut mis à jour', 'success');
     } catch (error) {
-      alert('Erreur lors de la mise à jour');
+      showToast('Erreur lors de la mise à jour', 'error');
     }
   };
 

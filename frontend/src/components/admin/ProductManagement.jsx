@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
+import { useToast } from '../../context/ToastContext';
 import * as productService from '../../services/productService';
 
 const ProductManagement = () => {
@@ -15,6 +16,7 @@ const ProductManagement = () => {
     isAvailable: true
   });
   const [imageFile, setImageFile] = useState(null);
+  const { showToast } = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -52,12 +54,12 @@ const ProductManagement = () => {
         await productService.uploadProductImage(product.id, imageFile);
       }
 
-      alert('Produit enregistré avec succès !');
+      showToast('Produit enregistré avec succès !', 'success');
       setShowForm(false);
       resetForm();
       fetchProducts();
     } catch (error) {
-      alert('Erreur lors de l\'enregistrement du produit');
+      showToast('Erreur lors de l\'enregistrement du produit', 'error');
     }
   };
 
@@ -80,8 +82,9 @@ const ProductManagement = () => {
       try {
         await productService.deleteProduct(id);
         fetchProducts();
+        showToast('Produit supprimé', 'success');
       } catch (error) {
-        alert('Erreur lors de la suppression');
+        showToast('Erreur lors de la suppression', 'error');
       }
     }
   };

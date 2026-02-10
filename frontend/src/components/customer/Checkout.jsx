@@ -1,12 +1,14 @@
-import { useState, useContext } from 'react';
+﻿import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
 import { AuthContext } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import * as orderService from '../../services/orderService';
 
 const Checkout = () => {
   const { cart, getCartTotal, clearCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -40,10 +42,11 @@ const Checkout = () => {
       });
 
       clearCart();
-      alert('Commande créée avec succès !');
+      showToast('Commande créée avec succès !', 'success');
       navigate('/orders');
     } catch (err) {
       setError(err.response?.data?.error || 'Erreur lors de la commande');
+      showToast('Erreur lors de la commande', 'error');
     } finally {
       setLoading(false);
     }
