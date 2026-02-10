@@ -3,6 +3,7 @@ const User = require('../models/User');
 const PasswordResetToken = require('../models/PasswordResetToken');
 const { comparePassword } = require('../utils/passwordHelper');
 const { generateToken } = require('../utils/jwtHelper');
+const { sendPasswordResetEmail } = require('../utils/mailer');
 const { validationResult } = require('express-validator');
 
 const register = async (req, res, next) => {
@@ -150,7 +151,7 @@ const updateProfile = async (req, res, next) => {
 
 const buildResetResponse = (token, expiresAt) => {
   if (process.env.NODE_ENV === 'production') {
-    return { message: 'If the email exists, a reset link has been sent.' };
+    return { message: "Si l'email existe, un lien de reinitialisation a ete envoye." };
   }
 
   return {
@@ -171,7 +172,7 @@ const requestPasswordReset = async (req, res, next) => {
     const user = await User.findByEmail(email);
 
     if (!user) {
-      return res.json({ message: 'If the email exists, a reset link has been sent.' });
+      return res.json({ message: "Si l'email existe, un lien de reinitialisation a ete envoye." });
     }
 
     const rawToken = crypto.randomBytes(32).toString('hex');
@@ -183,6 +184,17 @@ const requestPasswordReset = async (req, res, next) => {
       tokenHash,
       expiresAt
     });
+
+    const appBaseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const resetUrl = `${appBaseUrl}/reset-password/${rawToken}`;
+    const emailSent = await sendPasswordResetEmail({
+      to: user.email,
+      resetUrl
+    });
+
+    if (!emailSent && process.env.NODE_ENV !== 'development') {
+      return res.json({ message: "Si l'email existe, un lien de reinitialisation a ete envoye." });
+    }
 
     res.json(buildResetResponse(rawToken, expiresAt));
   } catch (error) {
