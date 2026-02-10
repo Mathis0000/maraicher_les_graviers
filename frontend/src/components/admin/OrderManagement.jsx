@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import * as orderService from '../../services/orderService';
 
 const OrderManagement = () => {
   const [orders, setOrders] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [sortByClient, setSortByClient] = useState(false);
 
   useEffect(() => {
     fetchOrders();
@@ -27,21 +29,48 @@ const OrderManagement = () => {
     }
   };
 
-  const getStatusLabel = (status) => {
-    const labels = {
-      pending: 'En attente',
-      confirmed: 'Confirmée',
-      delivered: 'Livrée',
-      cancelled: 'Annulée'
-    };
-    return labels[status] || status;
-  };
+  const filteredOrders = orders.filter((order) => {
+    if (statusFilter === 'all') {
+      return true;
+    }
+    return order.status === statusFilter;
+  });
+
+  const sortedOrders = [...filteredOrders].sort((a, b) => {
+    if (sortByClient) {
+      const aName = `${a.last_name || ''} ${a.first_name || ''}`.trim().toLowerCase();
+      const bName = `${b.last_name || ''} ${b.first_name || ''}`.trim().toLowerCase();
+      return aName.localeCompare(bName, 'fr');
+    }
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
 
   return (
     <div className="order-management">
       <h2>Gestion des commandes</h2>
+      <div className="orders-controls">
+        <span>Trier par:</span>
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="btn btn-secondary status-select"
+        >
+          <option value="all">Statut: Tous</option>
+          <option value="pending">Statut: En attente</option>
+          <option value="confirmed">Statut: Confirmée</option>
+          <option value="delivered">Statut: Livrée</option>
+          <option value="cancelled">Statut: Annulée</option>
+        </select>
+        <button
+          type="button"
+          className={`btn btn-secondary ${sortByClient ? 'active' : ''}`}
+          onClick={() => setSortByClient((prev) => !prev)}
+        >
+          Client (A-Z)
+        </button>
+      </div>
       <div className="orders-table">
-        {orders.map((order) => (
+        {sortedOrders.map((order) => (
           <div key={order.id} className="order-admin-card">
             <div className="order-admin-header">
               <h3>Commande #{order.id.slice(0, 8)}</h3>
