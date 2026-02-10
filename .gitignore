@@ -18,7 +18,7 @@ yarn-error.log*
 
 # Docker
 .docker/
-
+.claude
 # OS
 .DS_Store
 Thumbs.db
