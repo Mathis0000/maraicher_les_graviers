@@ -1,6 +1,6 @@
 ﻿# Maraîcher E-Commerce Platform
 
-Une plateforme e-commerce complète pour maraîcher, permettant aux clients de commander des produits frais en ligne avec paiement à la livraison.
+Une plateforme e-commerce complète pour maraîcher, permettant aux clients de commander des produits frais en ligne avec paiement à la livraison : https://maraicher-les-graviers.fr/
 
 ## Fonctionnalités
 
@@ -64,10 +64,6 @@ Cette commande va :
 - **PostgreSQL**: localhost:5432
 
 ### Comptes par défaut
-
-**Compte Administrateur**:
-- Email: admin@maraicher.com
-- Mot de passe: admin123
 
 **Compte Client**:
 - Email: customer@example.com
