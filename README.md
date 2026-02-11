@@ -65,10 +65,6 @@ Cette commande va :
 
 ### Comptes par défaut
 
-**Compte Administrateur**:
-- Email: admin@maraicher.com
-- Mot de passe: admin123
-
 **Compte Client**:
 - Email: customer@example.com
 - Mot de passe: customer123
