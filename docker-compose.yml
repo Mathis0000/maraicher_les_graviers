@@ -26,7 +26,7 @@ services:
     build: ./backend
     container_name: maraicher_backend
     environment:
-      NODE_ENV: ${NODE_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-production}
       PORT: ${BACKEND_PORT:-5000}
       DB_HOST: postgres
       DB_PORT: 5432
@@ -44,31 +44,29 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./backend:/app
-      - /app/node_modules
       - backend_uploads:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy
     networks:
       - maraicher_network
-    command: npm run dev
+    restart: unless-stopped
+    command: npm start
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:5000/api}
     container_name: maraicher_frontend
-    environment:
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:5000/api}
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "80:80"
     depends_on:
       - backend
     networks:
       - maraicher_network
-    command: npm run dev
+    restart: unless-stopped
 
   caddy:
     image: caddy:2-alpine
