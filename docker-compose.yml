@@ -70,10 +70,33 @@ services:
       - maraicher_network
     command: npm run dev
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: maraicher_caddy
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - maraicher_network
+    restart: unless-stopped
+
 volumes:
   postgres_data:
     driver: local
   backend_uploads:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
     driver: local
 
 networks:
