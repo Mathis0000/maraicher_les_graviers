@@ -60,8 +60,8 @@ services:
       args:
         VITE_API_URL: ${VITE_API_URL:-http://localhost:5000/api}
     container_name: maraicher_frontend
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     depends_on:
       - backend
     networks:
